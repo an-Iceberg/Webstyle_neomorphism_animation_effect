@@ -1,0 +1,86 @@
+@mixin flex($direction: column, $content: center, $align: center, $gap: 30px, $wrap: nowrap) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $content;
+  align-items: $align;
+  gap: $gap;
+  flex-wrap: $wrap;
+}
+
+*, *:is(::after, ::before) {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font: 1rem "Veranda", sans-serif;
+}
+
+body {
+  background-color: #edf1f4;
+  min-height: 100vh;
+  width: 100vw;
+  @include flex();
+
+  .loader {
+    isolation: isolate;
+    @include flex($direction: row, $gap: 40px);
+
+    div {
+      overflow: hidden;
+      position: relative;
+      width: 40px;
+      height: 200px;
+      border: 2px solid #edf1f4;
+      border-radius: 40px;
+      box-shadow:
+        15px 15px 20px #0000001a,
+        -15px -15px  20px #fff,
+        inset -5px -5px 5px #ffffff80,
+        inset 5px 5px 5px #0000000d;
+      background-image: linear-gradient(to bottom, #0000000d, #edf1f4);
+
+      &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: 40px;
+        box-shadow:
+          15px 15px 20px #0000001a,
+          -15px -15px  20px #fff,
+          inset -5px -5px 5px #ffffff80,
+          inset 5px 5px 5px #0000000d;
+        z-index: 10;
+      }
+
+      &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 36px;
+        height: 36px;
+        background-color: #fff;
+        border-radius: 50%;
+        box-shadow:
+          inset -5px -5px 5px #00000033,
+          0 420px 0 400px #2196f3;
+        animation: loading-animation 2.5s calc(-0.5s * var(--i)) ease-in-out infinite;
+        transform: 0 160px;
+
+        @keyframes loading-animation {
+          0% {
+            translate: 0 160px;
+            filter: hue-rotate(180deg);
+          }
+          50% {
+            translate: 0 0;
+            filter: hue-rotate(90deg);
+          }
+          100% {
+            translate: 0 160px;
+            filter: hue-rotate(0deg);
+          }
+        }
+      }
+    }
+  }
+}
